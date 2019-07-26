@@ -3,7 +3,7 @@ import { Check, If, Else, ElseIf, Loop } from './directives';
 
 export default function ExampleApp(props) {
 
-    let some = ['abc', 'efg', 'hij', 'klm']
+    let arr = ['abc', 'efg', 'hij', 'klm']
     return (
         <div>
             <Check>
@@ -24,22 +24,28 @@ export default function ExampleApp(props) {
             </Check>
             <br />
             <ul>
-                <Loop over={some}>
+                <Loop over={arr}>
                     <HocLi />
                 </Loop>
             </ul>
             <Check>
-                <If condition={some.length > 3}>
-                    <Loop over={some}>
-                        <div>child {props.index}</div>
-                    </Loop>
+                <If condition={arr.length > 3}>
+                    <ul>
+                        <Loop over={arr}>
+                            <HocLi />
+                        </Loop>
+                    </ul>
                 </If>
             </Check>
-            <Loop from={0} to={5}>
-                <Loop over={['x', 'y', 'z']}>
-                    <HocLi />
+            <ul>
+                <Loop from={0} to={5}>
+                    <HocLiParent>
+                        <Loop over={['x', 'y', 'z']}>
+                            <HocLi />
+                        </Loop>
+                    </HocLiParent>
                 </Loop>
-            </Loop>
+            </ul>
         </div>
     );
 }
@@ -49,6 +55,20 @@ function HocLi(props) {
     return (
         <li>
             {`${i + 1} --> ${data}`}
+        </li>
+    );
+}
+
+function HocLiParent(props) {
+    const { index: i, children } = props;
+    return (
+        <li>
+            {`Iteration ${i + 1}`}
+            <ul>
+                {
+                    children
+                }
+            </ul>
         </li>
     );
 }

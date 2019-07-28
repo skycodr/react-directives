@@ -5,7 +5,7 @@ import {ElseIf, Else} from './';
 
 import { errorConstants as Constants } from '../../constants';
 
-export function If(props) {
+export default function If(props) {
     const { condition = false, children } = props;
     return <>{condition ? children : null}</>
 }

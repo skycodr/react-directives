@@ -4,7 +4,7 @@ import { If, ElseIf } from './'
 
 import { errorConstants as Constants } from '../../constants';
 
-export function Else(props) {
+export default function Else(props) {
     return <>{props.children}</>;
 }
 

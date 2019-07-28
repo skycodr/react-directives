@@ -1,14 +1,18 @@
-import React, { cloneElement } from 'react';
+import React, { Children, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 
-export function Loop(props) {
+import { errorConstants as EC } from '../../constants';
+
+import { Template } from './';
+
+export default function Loop(props) {
     let renderable = [];
     let { over = [], from = 0, to = over.length, step = 1, children: template } = props;
 
-    if (template) {
-        for (let _i_ = from; _i_ < to; _i_ += step) {
-            let data = over[_i_] || null;
-            renderable.push(cloneElement(template, { key: _i_, index: _i_, data }));
+    if (template && Children.count(template) === 1 && template.type === Template) {
+        for (let i = from; i < to; i += step) {
+            let data = over[i] || i;
+            renderable.push(cloneElement(template, { key: i, index: i, data }));
         }
     }
 
@@ -20,5 +24,13 @@ Loop.propTypes = {
     to: PropTypes.number,
     step: PropTypes.number,
     over: PropTypes.array,
-    children: PropTypes.node.isRequired
+    children: (props, key) => {
+        const children = props[key];
+        if (children === undefined) return EC.ERR_LOOP_MUST_CONTAIN_AN_TEMPLATE_ELEMENT;
+        else if(Children.count(children) > 1)  return EC.ERR_LOOP_MUST_CONTAIN_ONLY_ONE_ELEMENT;
+        else if(children.type !== Template) return EC.ERR_LOOP_ONLY_TEMPLATE_ELEMENT_ALLOWED;
+
+        return null;
+    }
+
 };

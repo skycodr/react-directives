@@ -3,7 +3,7 @@ import { If, Else, ElseIf } from '.'
 
 import { errorConstants as EC } from '../../constants';
 
-export function Check(props) {
+export default function Check(props) {
     let renderable = null, i = 0;
 
     const elements = Children.toArray(props.children);

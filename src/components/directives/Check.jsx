@@ -3,6 +3,9 @@ import { If, Else, ElseIf } from '.'
 
 import { errorConstants as EC } from '../../constants';
 
+/**
+ * The root container for conditional rendering using If, ElseIf, Else blocks.
+ */
 export default function Check(props) {
     let renderable = null, i = 0;
 

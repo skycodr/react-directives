@@ -1,14 +1,22 @@
-import React from "react";
+import React, { Children } from "react";
 
-export default function Template(props){
+export default function Template ( props ) {
 
-    let { index: i } = props;
+    const { index, data, children, level = 0, renderer = null } = props;
+    const itemRenders = [];
 
-    return (
-        <>
-            {
-                `iteration ${i} `
-            }
-        </>
-    );
+    const childRenderer = (renderer) ?  renderer( props ) : children;
+
+    Children.forEach( childRenderer, ( child, childIndex ) => {
+        itemRenders.push( React.cloneElement( child, { key: `${ level }_${ index }_${ childIndex }`, level, data, index } ) );
+    } );
+
+    return <>{ itemRenders }</>;
 }
+
+// Todo:
+// Template.propTypes = {
+//      children: (props, key) => {
+//         return null;
+//      }
+// };

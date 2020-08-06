@@ -1,5 +1,5 @@
 import React from 'react';
-import {If, Else, Check} from '../directives';
+import {If, Else, Check} from '../../directives';
 
 export const Item = ( props ) => {
     const { index, data } = props;

@@ -6,7 +6,7 @@ const style = {
   border: '1px solid darkgray',
   tabSize: 1,
   tabWidth: 4,
-
+  whiteSpace: 'pre-wrap'
 };
 
 export default ({ children }) => (

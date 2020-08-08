@@ -1,22 +1,63 @@
-import React, { Children } from "react";
+/**
+ * Copyright (c) by SkyCodr (aka: Dulan Sudasinghe)
+ * 
+ * License: MIT
+ * 
+ * Purpose:
+ * 
+ * This is an attempt to replicate *ngIf, *ngFor the React way. This also eliminates
+ * the need for the multi level ternaries and map function. Key prop is automatically
+ * injected where necessary.
+ * 
+ * Disclaimer:
+ * 
+ * This is runtime rendered content. Thus, will have minor performance degradation.
+ * If you want compile time rendered content look for other libraries. Use at your
+ * own risk.
+ * 
+ */
 
-export default function Template ( props ) {
+import { Children, cloneElement } from "react";
+import PropTypes from "prop-types";
 
-    const { index, data, children, level = 0, renderer = null } = props;
-    const itemRenders = [];
+import { EC } from "../constants";
 
-    const childRenderer = (renderer) ?  renderer( props ) : children;
+import { isFunc } from "../helpers";
 
-    Children.forEach( childRenderer, ( child, childIndex ) => {
-        itemRenders.push( React.cloneElement( child, { key: `${ level }_${ index }_${ childIndex }`, level, data, index } ) );
-    } );
+/**
+ * Defines a template to be rendered in a loop.
+ * 
+ * @param {object} props Props to be passed
+ */
+const Template = (props) => {
+  const { index, data, children: ch, level: lvl, itemRenderer: iRender } = props;
+  const renderers = iRender ? iRender(props) : isFunc(ch) ? ch(props) : ch;
+  return Children.map(renderers, (c, ci) => cloneElement(c, { key: `${lvl}_${index}_${ci}`, level: lvl, data, index }));
+};
 
-    return <>{ itemRenders }</>;
-}
 
-// Todo:
-// Template.propTypes = {
-//      children: (props, key) => {
-//         return null;
-//      }
-// };
+Template.propTypes = {
+  data: PropTypes.any,
+  level: PropTypes.number,
+  index: PropTypes.number,
+  children: (props, key) => {
+    const ch = props[key];
+    const iRender = props["itemRenderer"];
+    let err = (ch || iRender) ? null : EC.ERR_TEMPLATE_MUST_CONTAIN_A_CHILD_COMPONENT;
+    return err;
+  },
+  itemRenderer: (props, key) => {
+    const iRender = props[key];
+    const ch = props["children"];
+    let err = (ch || iRender) ? null : EC.ERR_TEMPLATE_MUST_CONTAIN_A_CHILD_COMPONENT;
+    return err;
+  }
+};
+
+Template.defaultProps = {
+  data: null,
+  level: 0,
+  index: 0
+};
+
+export default Template;

@@ -20,3 +20,5 @@ export const ERR_ELSE_CANNOT_CONTAIN_IF_ELSEIF = geo(`${gc('Else')} - ${gc('If')
 export const ERR_LOOP_MUST_CONTAIN_AN_TEMPLATE_ELEMENT = geo(`${gc('Loop')} - Must contain a single ${gc('Template')} element.`);
 export const ERR_LOOP_MUST_CONTAIN_ONLY_ONE_ELEMENT = geo(`${gc('Loop')} - Must contain only one ${gc('Template')} element.`);
 export const ERR_LOOP_ONLY_TEMPLATE_ELEMENT_ALLOWED = geo(`${gc('Loop')} - Only one ${gc('Template')} element allowed.`);
+
+export const ERR_TEMPLATE_MUST_CONTAIN_A_CHILD_COMPONENT = geo(`${gc('Template')} - Must contain a child component to render.`);

@@ -1,2 +1,2 @@
 import * as errorConstants from './errorConstants';
-export { errorConstants };
+export { errorConstants as EC };

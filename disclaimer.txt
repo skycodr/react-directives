@@ -1,0 +1,18 @@
+/**
+ * Copyright (c) by SkyCodr (aka: Dulan Sudasinghe)
+ * 
+ * License: MIT
+ * 
+ * Purpose:
+ * 
+ * This is an attempt to replicate *ngIf, *ngFor the React way. This also eliminates
+ * the need for the multi level ternaries and map function. Key prop is automatically
+ * injected where necessary.
+ * 
+ * Disclaimer:
+ * 
+ * This is runtime rendered content. Thus, will have minor performance degradation.
+ * If you want compile time rendered content look for other libraries. Use at your
+ * own risk.
+ * 
+ */
